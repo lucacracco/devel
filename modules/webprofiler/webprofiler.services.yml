@@ -66,7 +66,16 @@ services:
       - { name: data_collector, template: '@webprofiler/Collector/request.html.twig', id: 'request', title: 'Request', priority: 100 }
       - { name: event_subscriber }
 
+  webprofiler.events:
+    class: Drupal\webprofiler\DataCollector\EventsDataCollector
+    arguments: [ '@event_dispatcher' ]
+    tags:
+      - { name: data_collector, template: '@webprofiler/Collector/events.html.twig', id: 'events', title: 'Events', priority: 150 }
+
   # debug services
+  stopwatch:
+    class: Drupal\webprofiler\Stopwatch
+
   webprofiler.debug.entity_type.manager:
     class: Drupal\webprofiler\Entity\EntityTypeManagerWrapper
     public: false

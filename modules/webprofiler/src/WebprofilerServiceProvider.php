@@ -44,6 +44,11 @@ class WebprofilerServiceProvider extends ServiceProviderBase {
       ->setClass('Drupal\webprofiler\Access\AccessManagerWrapper')
       ->addMethodCall('setDataCollector',
         [new Reference('webprofiler.request')]);
+
+    // Replace the regular event_dispatcher service with a traceable one.
+    $container->getDefinition('event_dispatcher')
+      ->setClass('Drupal\webprofiler\EventDispatcher\TraceableEventDispatcher')
+      ->addMethodCall('setStopwatch', [new Reference('stopwatch')]);
   }
 
 }
